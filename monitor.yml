@@ -1,0 +1,33 @@
+name: Shift-Right API Monitor
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Chạy tự động mỗi giờ[cite: 4]
+  workflow_dispatch: # Cho phép kích hoạt chạy thủ công trên GitHub Actions[cite: 4, 5]
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Newman
+        run: |
+          npm install -g newman
+
+      - name: Monitor GET /users API (Response time < 800ms)
+        env:
+          GOREST_TOKEN: ${{ secrets.GOREST_TOKEN }}
+        run: |
+          newman run GoRest_Collection.json \
+            -e GoRest_Environment.json \
+            --env-var "token=$GOREST_TOKEN" \
+            --folder "Positive_Cases" \
+            --bail
