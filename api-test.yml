@@ -1,0 +1,41 @@
+name: GoRest API Testing with Newman
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Newman
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Run API Tests with Newman
+        env:
+          GOREST_TOKEN: ${{ secrets.GOREST_TOKEN }}
+        run: |
+          newman run GoRest_Collection.json \
+            -e GoRest_Environment.json \
+            -d users.csv \
+            --env-var "token=$GOREST_TOKEN" \
+            -r cli,htmlextra
+
+      - name: Upload Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-html-report
+          path: newman/
