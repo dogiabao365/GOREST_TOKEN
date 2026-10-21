@@ -1,0 +1,352 @@
+{
+  "info": {
+    "_postman_id": "eac5ade4-b37e-43d8-8c6e-57e54fb1b0b5",
+    "name": "New Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59057136",
+    "_collection_link": "https://go.postman.co/collection/59057136-eac5ade4-b37e-43d8-8c6e-57e54fb1b0b5?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "2474802010023_DOGIABAO_GoRest",
+      "item": [
+        {
+          "name": "Positive_Cases",
+          "item": [
+            {
+              "name": "requests1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 201 Created\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\nvar jsonData = pm.response.json();\r\npm.environment.set(\"user_id\", jsonData.id);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eaa18b8f0fa3826585167572000dc36a8cb8c79e516092ace8bd632165fc0667",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Nguyen Van An\",\r\n  \"gender\": \"male\",\r\n  \"email\": \"an.2623a@example.com\",\r\n  \"status\": \"active\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://gorest.co.in/public/v2/users/",
+                  "protocol": "https",
+                  "host": [
+                    "gorest",
+                    "co",
+                    "in"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users",
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "requests2",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"ID khớp user vừa tạo\", function () {\r\n    pm.expect(pm.response.json().id).to.eql(Number(pm.environment.get(\"user_id\")));\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eaa18b8f0fa3826585167572000dc36a8cb8c79e516092ace8bd632165fc0667",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://gorest.co.in/public/v2/users/{{user_id}}",
+                  "protocol": "https",
+                  "host": [
+                    "gorest",
+                    "co",
+                    "in"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users",
+                    "{{user_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "requests3",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"Status is updated to inactive\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.status).to.eql(\"inactive\");\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"status\": \"inactive\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://gorest.co.in/public/v2/users/{{user_id}}",
+                  "protocol": "https",
+                  "host": [
+                    "gorest",
+                    "co",
+                    "in"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users",
+                    "{{user_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "requests6",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 422 Unprocessable Entity\", function () {\r\n    pm.response.to.have.status(422);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Nguyen Van An\",\r\n  \"gender\": \"male\",\r\n  \"email\": \"an.2623a@example.com\",\r\n  \"status\": \"active\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://gorest.co.in/public/v2/users",
+                  "protocol": "https",
+                  "host": [
+                    "gorest",
+                    "co",
+                    "in"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "requests4",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 204 No Content\", function () {\r\n    pm.response.to.have.status(204);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "https://gorest.co.in/public/v2/users/{{user_id}}",
+                  "protocol": "https",
+                  "host": [
+                    "gorest",
+                    "co",
+                    "in"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users",
+                    "{{user_id}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "requests7",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status 404 Not Found\", () => pm.response.to.have.status(404));"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eaa18b8f0fa3826585167572000dc36a8cb8c79e516092ace8bd632165fc0667",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://gorest.co.in/public/v2/users/{{user_id}}",
+                  "protocol": "https",
+                  "host": [
+                    "gorest",
+                    "co",
+                    "in"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users",
+                    "{{user_id}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Negative_Cases",
+          "item": [
+            {
+              "name": "requests5",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Status code is 401 Unauthorized\", function () {\r\n    pm.response.to.have.status(401);\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"No Token User\",\r\n    \"gender\": \"male\",\r\n    \"email\": \"notoken2026@example.com\",\r\n    \"status\": \"active\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://gorest.co.in/public/v2/users",
+                  "protocol": "https",
+                  "host": [
+                    "gorest",
+                    "co",
+                    "in"
+                  ],
+                  "path": [
+                    "public",
+                    "v2",
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
